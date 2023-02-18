@@ -16,6 +16,10 @@ public class PlayerList {
         return size;
     }
 
+	public LinkedList<Player> getList() {
+		return list;
+	}
+
     public void addPlayer(Player player) {
         list.add(player);
         size++;

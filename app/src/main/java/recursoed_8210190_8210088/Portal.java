@@ -1,17 +1,21 @@
 package recursoed_8210190_8210088;
 
+import Lists.LinkedList;
+
 public class Portal  extends Local{
     private String name;
     private String team;
     private Player player;
     private double maxEnergy;
+    private LinkedList<PortalData> portalData;
 
-    public Portal(int id, double longitude, double latitude, double energy, String team, Player player, double maxEnergy, String name) {
+    public Portal(int id, double longitude, double latitude, double energy, String team, Player player, double maxEnergy, String name, LinkedList<PortalData> portalData) {
         super(id, longitude, latitude, energy);
         this.team = team;
         this.player = player;
         this.maxEnergy = maxEnergy;
         this.name = name;
+        this.portalData = portalData;
     }
 
     public Portal(int id, double longitude, double latitude, double energy, double maxEnergy, String name) {
@@ -19,6 +23,7 @@ public class Portal  extends Local{
         this.team = "None";
         this.maxEnergy = maxEnergy;
         this.name = name;
+        this.portalData = new LinkedList<PortalData>();
     }
     
     public void loadEnergy(double energy) {
@@ -27,6 +32,10 @@ public class Portal  extends Local{
 			setEnergy(maxEnergy);
 		}
 	}
+
+    public LinkedList<PortalData> getPortalData() {
+        return portalData;
+    }
 
     public String getName() {
         return name;
@@ -94,6 +103,7 @@ public class Portal  extends Local{
 			double energy = Double.parseDouble(System.console().readLine());
 			loadEnergy(energy);
             player1.gainExp(0.07);
+            portalData.add(new PortalData(player1, "loaded Energy"));
 		}
 	}
 
@@ -112,6 +122,7 @@ public class Portal  extends Local{
 			double energy = Double.parseDouble(System.console().readLine());
 			deloadEnergy(energy);
             player1.gainExp(0.07);
+            portalData.add(new PortalData(player1, "Attacked the portal"));
 		}
 	}while(answer.equals("Y"));
 	}
@@ -134,6 +145,7 @@ public class Portal  extends Local{
 			player1.removeEnergy(energy);
 			conquer(player1);
             player1.gainExp(0.1);
+            portalData.add(new PortalData(player1, "Conquered the portal"));
 			System.out.println("You have conquered" + this.name + "!");
 		}
 	}

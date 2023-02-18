@@ -120,4 +120,16 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
         }
         return false;
     }
+
+    //returns a list with the vertices that are connected to the given vertex
+    public ArrayList<T> getNeighbors(T vertex) {
+        ArrayList<T> result = new ArrayList<T>();
+        if(getVertices().contains(vertex)) {
+            int index = indexOf(vertex);
+            for(int i = 0; i < getEdges().get(index).size(); i++) {
+                result.add(getEdges().get(index).get(i));
+            }
+        }
+        return result;
+    }
 }

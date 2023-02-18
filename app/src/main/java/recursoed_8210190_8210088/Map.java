@@ -2,15 +2,22 @@ package recursoed_8210190_8210088;
 
 import Exceptions.InvalidValue;
 import Lists.ArrayList;
+import Lists.LinearNode;
 import Lists.Network;
 
 public class Map {
     private Network<Local> Network;
+    private PlayerList players;
     private int totalLocals;
+    private ArrayList<ArrayList<Local>> giantsPath;
+    private ArrayList<ArrayList<Local>> sparksPath;
 
     public Map() {
         this.Network = new Network<Local>();
         this.totalLocals = 0;
+        this.players = new PlayerList();
+        this.giantsPath = new ArrayList<ArrayList<Local>>();
+        this.sparksPath = new ArrayList<ArrayList<Local>>();
     }
 
     public int getTotalLocals() {
@@ -24,6 +31,34 @@ public class Map {
 
     public void addConnection(Local local1, Local local2, double weight) {
         this.Network.addEdge(local1, local2, weight);
+    }
+
+    public void addPlayer(Player player) {
+        this.players.addPlayer(player);
+    }
+
+    public ArrayList<Local> getGiantsPath(Local local) {
+        int index = this.Network.indexOf(local);
+        return giantsPath.get(index);
+    }
+
+    public ArrayList<Local> getSparksPath(Local local) {
+        int index = this.Network.indexOf(local);
+        return sparksPath.get(index);
+    }
+
+    public void addGiantsTunel(Local local1, Local local2) {
+        int index1 = this.Network.indexOf(local1);
+        int index2 = this.Network.indexOf(local2);
+        giantsPath.get(index1).add(local2);
+        giantsPath.get(index2).add(local1);
+    }
+
+    public void addSparksTunel(Local local1, Local local2) {
+        int index1 = this.Network.indexOf(local1);
+        int index2 = this.Network.indexOf(local2);
+        sparksPath.get(index1).add(local2);
+        sparksPath.get(index2).add(local1);
     }
 
     public void editLatLong(Local local, double latitude, double longitude) throws InvalidValue {
@@ -93,5 +128,86 @@ public class Map {
             }
         }
         return connectors;
+    }
+
+
+    public void getConnectors25() {
+        ArrayList<Connector> connectors = getConnectors();
+        for (int i = 0; i < connectors.size()*0.25; i++) {
+            int randomIndex = (int) (Math.random() * connectors.size());
+            connectors.get(randomIndex).setMine(true);
+        }  
+    }
+
+    public void playerSetLocal(Player player, Local local) {
+        player.setLocal(local);
+        if(local instanceof Connector) {
+            Player otherPlayer = null;
+            LinearNode<Player> node = players.getList().getHead();
+            if(((Connector) local).isMine()) {
+                player.removeEnergy((player.getEnergy()*0.5));
+                ((Connector) local).setMine(false);
+            }
+            while(node != null) {
+                if(node.getElement().getLocal() == local && node.getElement() != player) {
+                    otherPlayer = node.getElement();
+                }
+                node = node.getNext();
+            }
+            LinearNode<TimeControl> node2 = ((Connector) local).getTimeControl().getHead();
+            if(otherPlayer == null)
+                return;
+            if(otherPlayer.getEnergy() > player.getEnergy()) {
+                while(node2 != null) {
+                    if(node2.getElement().getPlayer().equals(player)) {
+                        node2.getElement().setTime(System.currentTimeMillis());
+                        break;
+                    }
+                    node2 = node2.getNext();
+                }
+            }
+            else if(otherPlayer.getEnergy() < player.getEnergy()) {
+                while(node2 != null) {
+                    if(node2.getElement().getPlayer().equals(otherPlayer)) {
+                        node2.getElement().setTime(System.currentTimeMillis());
+                        break;
+                    }
+                    node2 = node2.getNext();
+                }
+            }
+        }
+    }
+
+    public Local getLocalByID(int id) {
+        for (int i = 0; i < this.Network.getVertices().size(); i++) {
+            if (this.Network.getVertices().get(i).getId() == id) {
+                return this.Network.getVertices().get(i);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Integer> nextLocation(Player player) {
+        ArrayList<Integer> nextLocation = new ArrayList<Integer>();
+        ArrayList<Local> neighbors = this.Network.getNeighbors(player.getLocal());
+        for (int i = 0; i < neighbors.size(); i++) {
+            nextLocation.add(neighbors.get(i).getId());
+        }
+        if(player.getTeam().equals("Giants")) {
+            ArrayList<Local> giantsPath = getGiantsPath(player.getLocal());
+            for(int i = 0; i < giantsPath.size(); i++) {
+                if(!(nextLocation.contains(giantsPath.get(i).getId()))){
+                    nextLocation.add(giantsPath.get(i).getId());
+                }
+            }
+        }else if(player.getTeam().equals("Sparks")) {
+            ArrayList<Local> sparksPath = getSparksPath(player.getLocal());
+            for(int i = 0; i < sparksPath.size(); i++) {
+                if(!(nextLocation.contains(sparksPath.get(i).getId()))){
+                    nextLocation.add(sparksPath.get(i).getId());
+                }
+            }
+        }
+        return nextLocation;
     }
 }
