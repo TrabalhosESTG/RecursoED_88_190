@@ -73,6 +73,7 @@ public class Portal  extends Local{
         setPlayer(player1);
         setTeam(player1.getTeam());
         player.portalConquered();
+        setEnergy(player1.getMaxEnergy()*0.25);
     }
 
     public void release(){
@@ -92,6 +93,7 @@ public class Portal  extends Local{
 			System.out.println("How much energy do you want to load?");
 			double energy = Double.parseDouble(System.console().readLine());
 			loadEnergy(energy);
+            player1.gainExp(0.07);
 		}
 	}
 
@@ -109,6 +111,7 @@ public class Portal  extends Local{
 			System.out.println("How much energy do you want to deload?");
 			double energy = Double.parseDouble(System.console().readLine());
 			deloadEnergy(energy);
+            player1.gainExp(0.07);
 		}
 	}while(answer.equals("Y"));
 	}
@@ -130,6 +133,7 @@ public class Portal  extends Local{
 			double energy = Double.parseDouble(System.console().readLine());
 			player1.removeEnergy(energy);
 			conquer(player1);
+            player1.gainExp(0.1);
 			System.out.println("You have conquered" + this.name + "!");
 		}
 	}

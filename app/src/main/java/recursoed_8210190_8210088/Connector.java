@@ -4,21 +4,31 @@ import Lists.LinearNode;
 import Lists.LinkedList;
 
 public class Connector extends Local{
-    private int cooldownn;
+    private int cooldown;
     private LinkedList<TimeControl> timeControl;
+    private boolean mine;
 
-    public Connector(int id, double longitude, double latitude, double energy, int cooldownn) {
+    public Connector(int id, double longitude, double latitude, double energy, int cooldown) {
         super(id, longitude, latitude, energy);
-        this.cooldownn = cooldownn;
+        this.cooldown = cooldown;
         this.timeControl = new LinkedList<TimeControl>();
+        this.mine = false;
     }
 
     public int getCooldownn() {
-        return cooldownn;
+        return cooldown;
     }
 
-    public void setCooldownn(int cooldownn) {
-        this.cooldownn = cooldownn;
+    public boolean isMine() {
+        return mine;
+    }
+
+    public void setMine(boolean mine) {
+        this.mine = mine;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
     }
 
     public LinkedList<TimeControl> getTimeControl() {
@@ -39,7 +49,7 @@ public class Connector extends Local{
             player.loadEnergy(this.getEnergy());
         }else{
             int diff = (int) ((System.currentTimeMillis() - node.getElement().getTime()) / 60000);
-            if(diff >= this.cooldownn){
+            if(diff >= this.cooldown){
                 player.loadEnergy(this.getEnergy());
                 node.getElement().setTime(System.currentTimeMillis());
             }else{

@@ -23,6 +23,27 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
     }
 
     @Override
+    public void removeEdge(T vertex1, T vertex2) {
+        if(getVertices().contains(vertex1) && getVertices().contains(vertex2)) {
+            int index1 = indexOf(vertex1);
+            int index2 = indexOf(vertex2);
+            for(int i = 0; i < getEdges().get(index1).size(); i++) {
+                if(getEdges().get(index1).get(i).equals(vertex2)) {
+                    getEdges().get(index1).remove(i);
+                    weights.get(index1).remove(i);
+                }
+            }
+
+            for(int i = 0; i < getEdges().get(index2).size(); i++) {
+                if(getEdges().get(index2).get(i).equals(vertex1)) {
+                    getEdges().get(index2).remove(i);
+                    weights.get(index2).remove(i);
+                }
+            }
+        }
+    }
+
+    @Override
     public double shortestPathWeight(T startVertex, T targetVertex) {
         int startIndex = indexOf(startVertex);
         int targetIndex = indexOf(targetVertex);
@@ -86,5 +107,17 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
             result.add(list.get(i));
         }
         return result;
-    } 
+    }
+
+    public boolean hasEdge(T vertex1, T vertex2) {
+        if(getVertices().contains(vertex1) && getVertices().contains(vertex2)) {
+            int index1 = indexOf(vertex1);
+            for(int i = 0; i < getEdges().get(index1).size(); i++) {
+                if(getEdges().get(index1).get(i).equals(vertex2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
