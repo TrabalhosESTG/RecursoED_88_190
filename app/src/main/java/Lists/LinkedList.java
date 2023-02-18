@@ -168,5 +168,9 @@ public class LinkedList<T> implements OrderedListADT<T>{
             throw new UnsupportedOperationException("Remove operation is not supported.");
         }
     }
+
+    public LinearNode<T> getHead() {
+        return head;
+    }
     
 }
