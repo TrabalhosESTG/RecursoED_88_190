@@ -6,14 +6,14 @@ import Lists.LinearNode;
 import Lists.Network;
 
 public class Map {
-    private Network<Local> Network;
+    private Network<Local> network;
     private PlayerList players;
     private int totalLocals;
     private ArrayList<ArrayList<Local>> giantsPath;
     private ArrayList<ArrayList<Local>> sparksPath;
 
     public Map() {
-        this.Network = new Network<Local>();
+        this.network = new Network<Local>();
         this.totalLocals = 0;
         this.players = new PlayerList();
         this.giantsPath = new ArrayList<ArrayList<Local>>();
@@ -25,12 +25,12 @@ public class Map {
     }
 
     public void addLocal(Local local) {
-        this.Network.addVertex(local);
+        this.network.addVertex(local);
         this.totalLocals++;
     }
 
     public void addConnection(Local local1, Local local2, double weight) {
-        this.Network.addEdge(local1, local2, weight);
+        this.network.addEdge(local1, local2, weight);
     }
 
     public void addPlayer(Player player) {
@@ -38,25 +38,25 @@ public class Map {
     }
 
     public ArrayList<Local> getGiantsPath(Local local) {
-        int index = this.Network.indexOf(local);
+        int index = this.network.indexOf(local);
         return giantsPath.get(index);
     }
 
     public ArrayList<Local> getSparksPath(Local local) {
-        int index = this.Network.indexOf(local);
+        int index = this.network.indexOf(local);
         return sparksPath.get(index);
     }
 
     public void addGiantsTunel(Local local1, Local local2) {
-        int index1 = this.Network.indexOf(local1);
-        int index2 = this.Network.indexOf(local2);
+        int index1 = this.network.indexOf(local1);
+        int index2 = this.network.indexOf(local2);
         giantsPath.get(index1).add(local2);
         giantsPath.get(index2).add(local1);
     }
 
     public void addSparksTunel(Local local1, Local local2) {
-        int index1 = this.Network.indexOf(local1);
-        int index2 = this.Network.indexOf(local2);
+        int index1 = this.network.indexOf(local1);
+        int index2 = this.network.indexOf(local2);
         sparksPath.get(index1).add(local2);
         sparksPath.get(index2).add(local1);
     }
@@ -98,33 +98,33 @@ public class Map {
     }
 
     public void removeLocal(Local local) {
-        this.Network.removeVertex(local);
+        this.network.removeVertex(local);
         this.totalLocals--;
     }
 
     public void removeConnection(Local local1, Local local2) {
-        this.Network.removeEdge(local1, local2);
+        this.network.removeEdge(local1, local2);
     }
 
     public ArrayList<Portal> getPortals() {
         ArrayList<Portal> portals = new ArrayList<Portal>();
-        for (int i = 0; i < this.Network.getVertices().size(); i++) {
-            if (this.Network.getVertices().get(i) instanceof Portal) {
-                portals.add((Portal) this.Network.getVertices().get(i));
+        for (int i = 0; i < this.network.getVertices().size(); i++) {
+            if (this.network.getVertices().get(i) instanceof Portal) {
+                portals.add((Portal) this.network.getVertices().get(i));
             }
         }
         return portals;
     }
 
     public ArrayList<Local> getLocals() {
-        return this.Network.getVertices();
+        return this.network.getVertices();
     }
 
     public ArrayList<Connector> getConnectors() {
         ArrayList<Connector> connectors = new ArrayList<Connector>();
-        for (int i = 0; i < this.Network.getVertices().size(); i++) {
-            if (this.Network.getVertices().get(i) instanceof Connector) {
-                connectors.add((Connector) this.Network.getVertices().get(i));
+        for (int i = 0; i < this.network.getVertices().size(); i++) {
+            if (this.network.getVertices().get(i) instanceof Connector) {
+                connectors.add((Connector) this.network.getVertices().get(i));
             }
         }
         return connectors;
@@ -179,9 +179,9 @@ public class Map {
     }
 
     public Local getLocalByID(int id) {
-        for (int i = 0; i < this.Network.getVertices().size(); i++) {
-            if (this.Network.getVertices().get(i).getId() == id) {
-                return this.Network.getVertices().get(i);
+        for (int i = 0; i < this.network.getVertices().size(); i++) {
+            if (this.network.getVertices().get(i).getId() == id) {
+                return this.network.getVertices().get(i);
             }
         }
         return null;
@@ -189,7 +189,7 @@ public class Map {
 
     public ArrayList<Integer> nextLocation(Player player) {
         ArrayList<Integer> nextLocation = new ArrayList<Integer>();
-        ArrayList<Local> neighbors = this.Network.getNeighbors(player.getLocal());
+        ArrayList<Local> neighbors = this.network.getNeighbors(player.getLocal());
         for (int i = 0; i < neighbors.size(); i++) {
             nextLocation.add(neighbors.get(i).getId());
         }
@@ -209,5 +209,31 @@ public class Map {
             }
         }
         return nextLocation;
+    }
+
+    public String shortestPathBetweenAnother(Local local1, Local local2, Local local3){
+        String path = " ";
+        ArrayList<Integer> path1 = network.shortestPath(network.indexOf(local1), network.indexOf(local3));
+        ArrayList<Integer> path2 = network.shortestPath(network.indexOf(local3), network.indexOf(local2));
+        Double weight = network.shortestPathWeight(local1, local3) + network.shortestPathWeight(local3, local2);
+        for(int i = 0; i < path1.size(); i++) {
+            path +=   " --> " + network.getVertex(path1.get(i)).getId();
+        }
+        for(int i = 0; i < path2.size(); i++) {
+            path +=   " --> " + network.getVertex(path2.get(i)).getId();
+        }
+        path += " Peso total: " + weight;
+        return path;
+    }
+
+    public String shortestPath(Local local1, Local local2){
+        String path = " ";
+        ArrayList<Integer> path1 = network.shortestPath(network.indexOf(local1), network.indexOf(local2));
+        Double weight = network.shortestPathWeight(local1, local2);
+        for(int i = 0; i < path1.size(); i++) {
+            path +=   " --> " + network.getVertex(path1.get(i)).getId();
+        }
+        path += " Peso total: " + weight;
+        return path;
     }
 }

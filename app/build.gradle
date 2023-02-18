@@ -9,6 +9,8 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'java'
+	id 'jacoco'
 }
 
 repositories {
@@ -18,13 +20,35 @@ repositories {
 
 dependencies {
     // Use JUnit test framework.
-    testImplementation 'junit:junit:4.13.2'
-
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'recursoed_8210190_8210088.App'
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
 }

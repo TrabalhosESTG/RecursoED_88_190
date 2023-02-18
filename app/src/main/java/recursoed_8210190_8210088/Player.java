@@ -90,7 +90,7 @@ public class Player {
 
     public void gainExp(double x) {
 		this.exp += Math.pow((this.level/x), 2);
-		if (this.exp >= 100) {
+		if (this.exp > 100) {
 			levelUp();
 		}
 	}

@@ -59,7 +59,7 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
     }
 
     //shortest path between two vertices considering weights
-    private ArrayList<Integer> shortestPath(int startIndex, int targetIndex) {
+    public ArrayList<Integer> shortestPath(int startIndex, int targetIndex) {
         ArrayList<Integer> result = new ArrayList<Integer>();
         ArrayList<Integer> visited = new ArrayList<Integer>();
         ArrayList<Integer> path = new ArrayList<Integer>();
@@ -131,5 +131,9 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
             }
         }
         return result;
+    }
+
+    public T getVertex(int index) {
+        return getVertices().get(index);
     }
 }

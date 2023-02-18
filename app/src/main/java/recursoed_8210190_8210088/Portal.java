@@ -102,7 +102,7 @@ public class Portal  extends Local{
 			System.out.println("How much energy do you want to load?");
 			double energy = Double.parseDouble(System.console().readLine());
 			loadEnergy(energy);
-            player1.gainExp(0.07);
+            player1.gainExp(4);
             portalData.add(new PortalData(player1, "loaded Energy"));
 		}
 	}
@@ -121,7 +121,7 @@ public class Portal  extends Local{
 			System.out.println("How much energy do you want to deload?");
 			double energy = Double.parseDouble(System.console().readLine());
 			deloadEnergy(energy);
-            player1.gainExp(0.07);
+            player1.gainExp(4);
             portalData.add(new PortalData(player1, "Attacked the portal"));
 		}
 	}while(answer.equals("Y"));
@@ -144,7 +144,7 @@ public class Portal  extends Local{
 			double energy = Double.parseDouble(System.console().readLine());
 			player1.removeEnergy(energy);
 			conquer(player1);
-            player1.gainExp(0.1);
+            player1.gainExp(2);
             portalData.add(new PortalData(player1, "Conquered the portal"));
 			System.out.println("You have conquered" + this.name + "!");
 		}
