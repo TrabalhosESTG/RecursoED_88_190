@@ -103,15 +103,15 @@ public class Player {
         this.conqueredPortals--;
     }
 
-    public void loadEnergy(double energy) {
-		this.energy += energy;
+    public void loadEnergy(double energia) {
+		this.energy += energia;
 		if (this.energy > this.maxEnergy) {
 			this.energy = this.maxEnergy;
 		}
 	}
 
-    public void removeEnergy(double energy) {
-		this.energy -= energy;
+    public void removeEnergy(double energia) {
+		this.energy -= energia;
 		if (this.energy < 0) {
 			this.energy = 0;
 		}

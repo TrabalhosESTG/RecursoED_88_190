@@ -15,7 +15,7 @@ public class Connector extends Local{
         this.mine = false;
     }
 
-    public int getCooldownn() {
+    public int getCooldown() {
         return cooldown;
     }
 
@@ -41,7 +41,7 @@ public class Connector extends Local{
     
     public void loadPlayerEnergy(Player player) {
         LinearNode<TimeControl> node = this.timeControl.getHead();
-        while(node != null && player.equals(node.getElement().getPlayer())) {
+        while(node != null && !(player.getId() == node.getElement().getPlayer().getId())) {
             node = node.getNext();
         }
         if(node == null){

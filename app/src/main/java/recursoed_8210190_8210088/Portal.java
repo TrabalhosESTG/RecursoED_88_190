@@ -1,7 +1,6 @@
 package recursoed_8210190_8210088;
 
 import Lists.LinkedList;
-
 public class Portal  extends Local{
     private String name;
     private String team;
@@ -73,8 +72,6 @@ public class Portal  extends Local{
         setEnergy((getEnergy() - energy));
         if (getEnergy() < 0) {
             setEnergy(0);
-            player.portalLost();
-            release();
         }
     }
 
@@ -86,67 +83,57 @@ public class Portal  extends Local{
     }
 
     public void release(){
+        player.portalLost();
         setPlayer(null);
         setTeam("None");
     }
 
-    public void askToLoadEnergy(Player player1) {
-		if(getEnergy() == this.maxEnergy) {
+    public void fortifyPortal(Player player1, double energyLoaded) {
+		if(this.getEnergy() == this.maxEnergy) {
 			System.out.println("This portal is already full of energy.");
 			return;
 		}
-		System.out.println("Do you want to load energy? (Y/N)");
-		String answer = System.console().readLine();
-		if (answer.equals("Y")) {
-			System.out.println("You have " + player1.getEnergy() + " energy.");
-			System.out.println("How much energy do you want to load?");
-			double energy = Double.parseDouble(System.console().readLine());
-			loadEnergy(energy);
-            player1.gainExp(4);
-            portalData.add(new PortalData(player1, "loaded Energy"));
-		}
-	}
+        if(energyLoaded > player1.getEnergy()) {
+            System.out.println("You don't have enough energy to fortify this portal.");
+            return;
+        }
+        loadEnergy(energyLoaded);
+        player1.removeEnergy(energyLoaded);
+        player1.gainExp(4);
+        portalData.add(new PortalData(player1, "Fortified the portal"));
+    }
 
-    public void askToDeloadEnergy(Player player1) {
-		if(getEnergy() == 0) {
+    public void attackPortal(Player player1, double energyDeloaded) {
+		if(this.getEnergy() == 0) {
 			System.out.println("This portal is already empty of energy.");
 			return;
 		}
-		String answer;
-		do{
-		System.out.println("Do you want to deload energy? (Y/N)");
-		answer = System.console().readLine();
-		if (answer.equals("Y")) {
-			System.out.println("You have " + player1.getEnergy() + " energy.");
-			System.out.println("How much energy do you want to deload?");
-			double energy = Double.parseDouble(System.console().readLine());
-			deloadEnergy(energy);
-            player1.gainExp(4);
-            portalData.add(new PortalData(player1, "Attacked the portal"));
-		}
-	}while(answer.equals("Y"));
+        if(player1.getEnergy() < energyDeloaded) {
+            System.out.println("You don't have enough energy to attack this portal.");
+            return;
+        }
+        deloadEnergy(energyDeloaded);
+        player1.removeEnergy(energyDeloaded);
+        player1.gainExp(4);
+        portalData.add(new PortalData(player1, "Attacked the portal"));
+        if(getEnergy() == 0){
+            release();
+        }
 	}
 
-    public void askToConquer(Player player1) {
-		if (player1.getEnergy() < (player1.getMaxEnergy() * 0.25)) {
-			System.out.println("You don't have enough energy to conquer this portal.");
+    public void conquerPortal(Player player1, double energyLoaded) {
+		if (energyLoaded < (player1.getMaxEnergy() * 0.25)) {
+			System.out.println("You need to load at least 25% of your energy to conquer this portal");
 			return;
 		}
-		System.out.println("Do you want to conquer this portal? (Y/N)");
-		String answer = System.console().readLine();
-		if (answer.equals("Y")) {
-			if (player1.getEnergy() < (player.getMaxEnergy() * 0.25)) {
-				System.out.println("You don't have enough energy to conquer this portal.");
-				return;
-			}
-			System.out.println("The minimum energy to conquer this portal is" + (player1.getMaxEnergy() * 0.25) + "energy. You have " + player1.getEnergy() + "energy.");
-			System.out.println("How much energy do you want to use to conquer this portal?");
-			double energy = Double.parseDouble(System.console().readLine());
-			player1.removeEnergy(energy);
-			conquer(player1);
-            player1.gainExp(2);
-            portalData.add(new PortalData(player1, "Conquered the portal"));
-			System.out.println("You have conquered" + this.name + "!");
-		}
+        if (player1.getEnergy() < energyLoaded) {
+            System.out.println("You don't have enough energy to conquer this portal.");
+            return;
+        }
+        player1.removeEnergy(energyLoaded);
+        conquer(player1);
+        player1.gainExp(2);
+        portalData.add(new PortalData(player1, "Conquered the portal"));
+        System.out.println("You have conquered" + this.name + "!");
 	}
 }

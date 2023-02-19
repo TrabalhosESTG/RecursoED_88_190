@@ -76,7 +76,7 @@ public class PlayerList {
 				next = next.getNext();
 			}
 			current = current.getNext();
-			next = current.getNext();
+			next = current;
 		}
 		printPlayers();
 	}
@@ -94,7 +94,7 @@ public class PlayerList {
 				next = next.getNext();
 			}
 			current = current.getNext();
-			next = current.getNext();
+			next = current;
 		}
 		printPlayers();
 	}

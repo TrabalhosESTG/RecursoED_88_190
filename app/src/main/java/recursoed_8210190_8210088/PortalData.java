@@ -8,5 +8,13 @@ public class PortalData {
         this.player = player;
         this.action = action;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public String getAction() {
+        return action;
+    }
     
 }
