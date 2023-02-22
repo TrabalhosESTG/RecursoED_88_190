@@ -369,6 +369,11 @@ public class Map {
         return routes;
     }
 
+    /**
+    *Metodo que permite atacar um portal
+    *@param player Jogador que ataca o portal.
+    *@param attackEnergy Energia do ataque.
+    */
     public void attackPortal(Player player, double attackEnergy){
         if(player.getLocal() instanceof Portal){
             Portal portal = (Portal) player.getLocal();
@@ -382,6 +387,18 @@ public class Map {
                     current = current.getNext();
                 }
                 portal.release();
+            }
+        }
+    }
+
+    /**
+    *Método que remove todas as minas do mapa.
+    */
+    public void removeMines(){
+        ArrayList<Connector> connectors = getConnectors();
+        for(int i = 0; i < connectors.size(); i++) {
+            if(connectors.get(i).isMine()) {
+                connectors.get(i).setMine(false);
             }
         }
     }

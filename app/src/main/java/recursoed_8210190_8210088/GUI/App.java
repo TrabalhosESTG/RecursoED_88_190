@@ -102,6 +102,8 @@ public class App{
 			new Popup("Não existem rotas");
 			return;
 		}
+		map.removeMines();
+		map.getConnectors25();
 		new GestaoJogo(map);
 	}
 
@@ -163,7 +165,7 @@ public class App{
 				e1.printStackTrace();
 			}
 		} else {
-			System.out.println("Open dialog was cancelled by user.");
+			new Popup("Cancelado pelo utilizador");
 		}
 	}
 
@@ -175,7 +177,6 @@ public class App{
 	}
 
 	public static void main(String[] args) {
-
 		new App();
 	}
 }

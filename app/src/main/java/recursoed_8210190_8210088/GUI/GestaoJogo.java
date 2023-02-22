@@ -66,7 +66,7 @@ public class GestaoJogo{
 		labelLocalizacao.setText(String.valueOf(jogador.getLocal().getId()));
 		localAtual = jogador.getLocal().getId();
 		atualizarPara();
-		updatePlayers();
+		//updatePlayers();
 	}
 
 	/**
