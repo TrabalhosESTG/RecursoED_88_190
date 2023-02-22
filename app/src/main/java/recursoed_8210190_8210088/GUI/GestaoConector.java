@@ -22,6 +22,10 @@ public class GestaoConector  {
 		map = mapa;
 		initComponents();
 	}
+
+	/**
+	* Adiciona um conector ao mapa
+	*/
 	private void Adicionar(ActionEvent e) {
 		if(textCooldownAdd.getText().equals("")|| textLatitudeAdd.getText().equals("")|| textLongitudeAdd.getText().equals("")|| textEnergiaAdd.getText().equals("")){
 			new Popup("<html>Preencha todos os campos!</html>");
@@ -35,6 +39,9 @@ public class GestaoConector  {
 		new Popup("<html>Conector adicionado com sucesso!</html>");
 	}
 
+	/**
+	* Edita um conector do mapa
+	*/
 	private void Editar(ActionEvent e) {
 		if((!textCooldownEd.getText().matches("[0-9]+") && !textCooldownEd.getText().equals("")) ||
 		 (!textLatitudeEd.getText().matches("-?[0-9]+(\\.[0-9]+)?") && !textLatitudeEd.getText().equals("")) ||
@@ -50,8 +57,12 @@ public class GestaoConector  {
 			if(!textLongitudeEd.getText().equals("")) connector.setLongitude(Double.parseDouble(textLongitudeEd.getText()));
 			if(!textEnergiaEd.getText().equals("")) connector.setEnergy(Double.parseDouble(textEnergiaEd.getText()));
 			new Popup("<html>Conector editado com sucesso!</html>");
-		}	}
+		}
+	}
 
+	/**
+	* Remove um conector do mapa
+	*/
 	private void Remover(ActionEvent e) {
 		map.removeLocal(map.getLocalByID(Integer.parseInt(String.valueOf(RemoveCombo.getSelectedItem()))));
 		new Popup("<html>Connector removido com sucesso!</html>");

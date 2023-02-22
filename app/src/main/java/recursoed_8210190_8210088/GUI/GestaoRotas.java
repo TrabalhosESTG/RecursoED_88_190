@@ -23,17 +23,22 @@ public class GestaoRotas {
 		initComponents();
 	}
 
+	/**
+	* Adiciona uma rota ao mapa
+	*/
 	private void Adicionar(ActionEvent e) {
 		String de = (String) DeCombo.getSelectedItem();
 		String para = (String) ParaCombo.getSelectedItem();
 		String valor = (String) textPesoAdd.getText();
 		String tipo = (String) ValorCombo.getSelectedItem();
-		if(tipo.equals("Global"))
+		if(tipo.equals("Global") && !valor.equals(""))
 			map.addConnection(map.getLocalByID(Integer.parseInt(de)), map.getLocalByID(Integer.parseInt(para)), Double.parseDouble(valor));
 		else if(tipo.equals("Tunel Giants"))
 			map.addGiantsTunel(map.getLocalByID(Integer.parseInt(de)), map.getLocalByID(Integer.parseInt(para)));
 		else if(tipo.equals("Tunel Sparks"))
 			map.addSparksTunel(map.getLocalByID(Integer.parseInt(de)), map.getLocalByID(Integer.parseInt(para)));
+		else
+			new Popup("O valor do peso não pode ser vazio");
 	}
 
 	private void initComponents() {

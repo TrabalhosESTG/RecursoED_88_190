@@ -4,15 +4,29 @@
 package recursoed_8210190_8210088.GUI;
 import javax.swing.*;
 
+import recursoed_8210190_8210088.Json;
 import recursoed_8210190_8210088.Map;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.awt.event.ActionEvent;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.awt.event.*;
+import java.io.*;
 public class App{
 	JFrame f= new JFrame("Recurso ED - 8210088 - 8210190");
 	JButton btn_jogadores = new JButton("Gestão de Jogadores");
 	JButton btnLocais = new JButton("Gestão de Locais");
 	JButton btnJogar=new JButton("Jogar");
+	JButton rotaCurtaButton=new JButton("Rota mais curtas");
+	JButton exportButton=new JButton("Exportar Json");
+	JButton importButton=new JButton("Importar Json");
+
 	JButton btnSair=new JButton("Sair");
 
 	Map map = new Map();
@@ -35,10 +49,21 @@ public class App{
 		f.add(btnJogar);
         btnJogar.addActionListener(e -> gestaoJogo(e));
 
-		btnSair.setBounds(200,250,95,30);
+		exportButton.setBounds(150,250,200,30);
+		f.add(exportButton);
+        exportButton.addActionListener(e -> exportJson(e));
+
+		rotaCurtaButton.setBounds(150,300,200,30);
+		f.add(rotaCurtaButton);
+        rotaCurtaButton.addActionListener(e -> rotaCurta(e));
+
+		importButton.setBounds(150,350,200,30);
+		f.add(importButton);
+        importButton.addActionListener(e -> importJson(e));
+
+		btnSair.setBounds(200,400,95,30);
 		f.add(btnSair);
         btnSair.addActionListener(e -> closeProgram(e));
-
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(500,500);
@@ -46,15 +71,105 @@ public class App{
 		f.setVisible(true);
 	}
 
+	/**
+	* Abre a janela de gestão de jogadores
+	*/
 	private void gestaoJogadores(ActionEvent e) {
 		new GestaoPlayers(map);
 	}
+
+	/**
+	* Abre a janela de gestão de locais
+	*/
 	private void gestaoLocais(ActionEvent e) {
 		new GestaoLocais(map);
 	}
+
+	/**
+	* Abre a janela de gestão de jogo
+	*/
 	private void gestaoJogo(ActionEvent e) {
-		new Game(map);
+		if(map.getPlayers().getSize() == 0)
+		{
+			new Popup("Não existem jogadores");
+			return;
+		}
+		else if(map.getLocals().size() == 0)
+		{
+			new Popup("Não existem locais");
+			return;
+		}else if(map.getTotalRoutes() == 0){
+			new Popup("Não existem rotas");
+			return;
+		}
+		new GestaoJogo(map);
 	}
+
+	private void rotaCurta(ActionEvent a){
+		if(map.getLocals().size() == 0)
+		{
+			new Popup("Não existem locais");
+			return;
+		}else if(map.getTotalRoutes() == 0){
+			new Popup("Não existem rotas");
+			return;
+		}
+		new RotaMaisCurta(map);
+	}
+
+	/**
+	* Exporta o ficheiro Json
+	*/
+	private void exportJson(ActionEvent e) {
+		Json json = new Json();
+		JSONObject jsonobj = json.exportarJson(map);
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Escolhe onde queres guardar o ficheiro");
+		int userSelection = fileChooser.showSaveDialog(f);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			File fileToSave = fileChooser.getSelectedFile();
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave));
+				writer.write(jsonobj.toJSONString());
+				writer.close();
+				new Popup("Ficheiro guardado com sucesso");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			new Popup("Cancelado pelo utilizador");
+		}
+	}
+
+	/**
+	* Importa o ficheiro Json
+	*/
+	private void importJson(ActionEvent e) {
+		Json json = new Json();
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Open File");
+		int userSelection = fileChooser.showOpenDialog(f);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+				String jsonString = "";
+				for(String line; (line = reader.readLine()) != null; jsonString += line);
+				System.out.println(jsonString);
+				json.importarJson(map, jsonString);
+				reader.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			System.out.println("Open dialog was cancelled by user.");
+		}
+	}
+
+	/**
+	* Fecha o programa
+	*/
 	private void closeProgram(ActionEvent e) {
 		System.exit(0);
 	}

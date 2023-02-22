@@ -70,8 +70,9 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
         }
         ArrayList<Integer> path = shortestPath(startIndex, targetIndex);
         double result = 0;
-        for(int i = 0; i < path.size() - 1; i++) {
-            result += weights.get(path.get(i)).get(path.get(i+1));
+        for(int i = 0; i < path.size(); i++) {
+            if(weights.get(path.get(i)).get(path.get(i+1)) != null)
+            	result += weights.get(path.get(i)).get(path.get(i+1));
         }
         return result;
     }

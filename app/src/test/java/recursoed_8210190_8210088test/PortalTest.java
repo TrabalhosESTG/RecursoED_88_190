@@ -31,8 +31,8 @@ public class PortalTest {
     void testGetPortalData(){
         Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,0,null);
         LinkedList<PortalData> portalData = new LinkedList<PortalData>();
-        portalData.add(new PortalData(player1, "Conquered the portal"));
-        Portal portal = new Portal(1, 1, 1, 1, "Giants", player1, 10, "Portal", portalData);
+        portalData.add(new PortalData(player1.getId(), "Conquered the portal"));
+        Portal portal = new Portal(1, 1, 1, 1, "Giants", player1.getName(), 10, "Portal", portalData);
         portalData.getHead().getElement().getPlayer();
         assertEquals(portalData.getHead().getElement().getAction(), portal.getPortalData().getHead().getElement().getAction());
     }
@@ -54,8 +54,8 @@ public class PortalTest {
     @Test
     void testGetPlayer(){
         Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,0,null);
-        Portal portal = new Portal(1, 1, 1, 1, "Giants", player1, 10, "Portal", null);
-        assertEquals(player1, portal.getPlayer());
+        Portal portal = new Portal(1, 1, 1, 1, "Giants", player1.getName(), 10, "Portal", null);
+        assertEquals(player1.getName(), portal.getPlayer());
     }
 
     @Test
@@ -69,16 +69,16 @@ public class PortalTest {
     void testConquer(){
         Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,1,null);
         Player player2 = new Player("Player2", "Giants", 2,1,99.9,10,100,0,null);
-        Portal portal = new Portal(1, 1, 1, 1, 10, "Portal");    
+        Portal portal = new Portal(1, 1, 1, 1, 10, "Portal");
         portal.conquer(player2);
-        assertEquals(player2, portal.getPlayer());
+        assertEquals(player2.getName(), portal.getPlayer());
     }
 
     @Test
     void testFortifyPortal(){
         Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,1,null);
         Player player2 = new Player("Player2", "Giants", 2,1,99.9,10,100,0,null);
-        Portal portal = new Portal(1, 1, 1, 1, 100, "Portal");        
+        Portal portal = new Portal(1, 1, 1, 1, 100, "Portal");
         portal.fortifyPortal(player2, 20);
         portal.setEnergy(100);
         portal.fortifyPortal(player2, 2);

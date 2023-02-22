@@ -22,6 +22,10 @@ public class GestaoPortal {
 		map = mapa;
 		initComponents();
 	}
+
+	/**
+	* Adiciona um portal ao mapa
+	*/
 	private void Adicionar(ActionEvent e) {
 		if(textNomeAdd.getText().equals("")|| textLatitudeAdd.getText().equals("")|| textLongitudeAdd.getText().equals("")|| textMaxEnergyAdd.getText().equals("")){
 			new Popup("<html>Preencha todos os campos!</html>");
@@ -35,6 +39,9 @@ public class GestaoPortal {
 		new Popup("<html>Portal adicionado com sucesso!</html>");
 	}
 
+	/**
+	* Edita um portal do mapa
+	*/
 	private void Editar(ActionEvent e) {
 		if((!textLatitudeEd.getText().matches("-?[0-9]+(\\.[0-9]+)?") && !textLatitudeEd.getText().equals("")) || (!textLongitudeEd.getText().matches("-?[0-9]+(\\.[0-9]+)?") && !textLongitudeEd.getText().equals("")) || (!textMaxEnergyEd.getText().matches("[0-9]+(\\.[0-9]+)?") && !textMaxEnergyEd.getText().equals(""))){
 			new Popup("<html>Os campos Latitude, Longitude e Max Energy devem ser números e energia máxima deve ser positiva!</html>");
@@ -50,6 +57,9 @@ public class GestaoPortal {
 		}
 	}
 
+	/**
+	* Remove um portal do mapa
+	*/
 	private void Remover(ActionEvent e) {
 		map.removeLocal(map.getLocalByID(Integer.parseInt(String.valueOf(RemoveCombo.getSelectedItem()))));
 		new Popup("<html>Portal removido com sucesso!</html>");

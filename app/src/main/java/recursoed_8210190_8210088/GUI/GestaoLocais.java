@@ -26,14 +26,23 @@ public class GestaoLocais {
 		initComponents();
 	}
 
+	/**
+	* Abre a janela de gestão de portais
+	*/
 	private void portais(ActionEvent e) {
 		new GestaoPortal(map);
 	}
 
+	/**
+	* Abre a janela de gestão de conectores
+	*/
 	private void conectores(ActionEvent e) {
 		new GestaoConector(map);
 	}
 
+	/**
+	* Abre a janela de gestão de rotas
+	*/
 	private void rotas(ActionEvent e) {
 		new GestaoRotas(map);
 	}

@@ -14,22 +14,33 @@ import java.awt.event.ActionEvent;
 public class GestaoPlayers{
 	PlayerList playerList;
 	JFrame contentPane= new JFrame("Gestão de jogadores");
-
-	public GestaoPlayers(Map map) {
+	Map map;
+	public GestaoPlayers(Map mapa) {
+		map = mapa;
 		playerList = map.getPlayers();
 		initComponents();
 	}
 
+	/**
+	* Adiciona um jogador ao mapa
+	*/
 	private void addPlayer(ActionEvent e) {
 		if(textNomeAdd.getText().equals("")){
 			new Popup("<html>Nome inválido!</html>");
 			return;
 		}
+		if(map.getTotalLocals() == 0){
+			new Popup("<html>Não existe nenhum local criado, impossível criar player</html>");
+			return;
+		}
 		Player jogador = new Player(textNomeAdd.getText(), String.valueOf(AddCombo.getSelectedItem()), playerList.getNextID());
-		playerList.addPlayer(jogador);
+		map.addPlayer(jogador);
 		new Popup("<html>Jogador criado! ID:" + jogador.getId() + "</html>");
 	}
 
+	/**
+	* Edita um jogador do mapa
+	*/
 	private void editarPlayer(ActionEvent e) {
 		if(textNomeEd.getText().equals("")){
 			new Popup("<html>Nome inválido!</html>");
@@ -39,6 +50,9 @@ public class GestaoPlayers{
 		new Popup("<html>Jogador editado!</html>");
 	}
 
+	/**
+	* Remove um jogador do mapa
+	*/
 	private void removerPlayer(ActionEvent e) {
 		playerList.removePlayer(playerList.getPlayer(Integer.parseInt(String.valueOf(RemoveCombo.getSelectedItem()))));
 		new Popup("<html>Jogador removido</html>");
