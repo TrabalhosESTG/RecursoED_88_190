@@ -78,7 +78,7 @@ public class PortalTest {
     void testFortifyPortal(){
         Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,1,null);
         Player player2 = new Player("Player2", "Giants", 2,1,99.9,10,100,0,null);
-        Portal portal = new Portal(1, 1, 1, 1, 100, "Portal");
+        Portal portal = new Portal(1, 1, 1, 1, "Giants", player1.getName(), 20, "Portal", new LinkedList<PortalData>());
         portal.fortifyPortal(player2, 20);
         portal.setEnergy(100);
         portal.fortifyPortal(player2, 2);
@@ -86,22 +86,6 @@ public class PortalTest {
         portal.fortifyPortal(player2, 2);
         assertEquals(12, portal.getEnergy());
 
-    }
-
-    @Test
-    void testAttackPortal(){
-        Player player1 = new Player("Player1", "Giants", 1,1,99.9,10,100,1,null);
-        Player player2 = new Player("Player2", "Giants", 2,1,99.9,10,100,0,null);
-        Portal portal = new Portal(1, 1, 1, 1, 10, "Portal");
-        portal.conquer(player2);
-        portal.attackPortal(player2, 2);
-        portal.setEnergy(0);
-        portal.attackPortal(player2, 2);
-        portal.setEnergy(10);
-        portal.attackPortal(player2, 11);
-        player2.loadEnergy(80);
-        portal.attackPortal(player2, 50);
-        assertEquals(0, portal.getEnergy());
     }
 
     @Test

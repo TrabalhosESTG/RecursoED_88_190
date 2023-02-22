@@ -16,7 +16,19 @@ import java.io.IOException;
 import javax.swing.plaf.basic.BasicListUI.ListSelectionHandler;
 
 import recursoed_8210190_8210088.Map;
+
+/**
+ * Classe que importa e exporta o Json
+ *
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class Json {
+	/**
+	 * Método que experta as informações do jogo para um ficheiro JSON
+	 * @param map mapa do jogo
+	 * @return obj com as informações do jogo
+	 */
 	public JSONObject exportarJson(Map map){
 		JSONObject obj = new JSONObject();
 
@@ -103,10 +115,14 @@ public class Json {
 		obj.put("locals", locais);
 		obj.put("players", jogadores);
 		obj.put("routes", rotas);
-		System.out.println(obj);
 		return obj;
 	}
 
+	/**
+	 * Método que importa as informações do jogo a partir de um ficheiro JSON
+	 * @param map mapa do jogo
+	 * @param jsonString JSon a ser importado
+	 */
 	public void importarJson(Map map, String jsonString){
 		JSONParser parser = new JSONParser();
 		try {
@@ -153,7 +169,6 @@ public class Json {
 					Double.parseDouble(String.valueOf(jogadorJson.get("maxEnergy"))),
 					Integer.parseInt(String.valueOf(jogadorJson.get("conqueredPortals"))),
 					local);
-				System.out.println(player.getName());
 				map.addPlayer(player);
 			}
 
@@ -167,7 +182,6 @@ public class Json {
 					map.addSparksTunel(map.getLocalByID(Integer.parseInt(String.valueOf(rotaJson.get("from")))), map.getLocalByID(Integer.parseInt(String.valueOf(rotaJson.get("to")))));
 				}else if(rotaJson.get("equipa") == null)
 				{
-					System.out.println(rotaJson.get("from"));
 					map.addConnection(map.getLocalByID(Integer.parseInt(String.valueOf(rotaJson.get("from")))), map.getLocalByID(Integer.parseInt(String.valueOf(rotaJson.get("to")))), Double.parseDouble(String.valueOf(rotaJson.get("peso"))));
 				}
 			}
