@@ -1,5 +1,10 @@
 package Lists;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class LinearNode<T> {
     private LinearNode<T> next;
     private T element;

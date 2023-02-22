@@ -5,6 +5,11 @@ import java.util.Iterator;
 import Exceptions.EmptyCollectionException;
 import Interfaces.OrderedListADT;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class ArrayList<T> implements OrderedListADT<T> {
 
     private final int DEFAULT_CAPACITY = 100;

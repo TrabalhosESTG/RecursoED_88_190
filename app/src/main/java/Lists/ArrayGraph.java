@@ -7,6 +7,11 @@ import Exceptions.EmptyCollectionException;
 import Exceptions.NoSuchElementException;
 import Interfaces.GraphADT;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class ArrayGraph<T> implements GraphADT<T>{
 
     private ArrayList<T> vertices;

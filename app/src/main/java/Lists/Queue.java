@@ -3,6 +3,11 @@ package Lists;
 import Exceptions.EmptyCollectionException;
 import Interfaces.QueueADT;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class Queue<T> implements QueueADT<T> {
     private final int DEFAULT_CAPACITY = 100;
     private int rear;

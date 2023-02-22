@@ -4,6 +4,11 @@ import java.util.Iterator;
 import Exceptions.EmptyCollectionException;
 import Interfaces.OrderedListADT;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class LinkedList<T> implements OrderedListADT<T>{
 
     private int count;

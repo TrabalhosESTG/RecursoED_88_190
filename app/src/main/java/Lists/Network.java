@@ -3,6 +3,11 @@ package Lists;
 
 import Interfaces.NetworkADT;
 
+/**
+ * 
+ * @author David Francisco (8210088)
+ * @author Guilherme Silva (8210190)
+ */
 public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
     private ArrayList<ArrayList<Double>> weights;
 
