@@ -70,6 +70,10 @@ public class Player {
         return id;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setTeam(String team) {
         if(team.equals("Sparks") || team.equals("Giants")) {
             this.team = team;
@@ -115,5 +119,10 @@ public class Player {
 		if (this.energy < 0) {
 			this.energy = 0;
 		}
+	}
+
+    public void editPlayer(String name, String team) {
+        setName(name);
+        setTeam(team);
 	}
 }

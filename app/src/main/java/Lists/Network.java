@@ -19,7 +19,25 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
             weights.get(indexOf(vertex1)).add(weight);
             weights.get(indexOf(vertex2)).add(weight);
         }
-        
+
+    }
+
+    @Override
+    public void removeVertex(T vertex) {
+        if(getVertices().contains(vertex)) {
+            int index = indexOf(vertex);
+            getVertices().remove(index);
+            getEdges().remove(index);
+            weights.remove(index);
+            for(int i = 0; i < getEdges().size(); i++) {
+                for(int j = 0; j < getEdges().get(i).size(); j++) {
+                    if(getEdges().get(i).get(j).equals(vertex)) {
+                        getEdges().get(i).remove(j);
+                        weights.get(i).remove(j);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -135,5 +153,9 @@ public class Network<T> extends ArrayGraph<T> implements NetworkADT<T>{
 
     public T getVertex(int index) {
         return getVertices().get(index);
+    }
+
+    public ArrayList<ArrayList<Double>> getWeights() {
+        return weights;
     }
 }

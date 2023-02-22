@@ -5,7 +5,7 @@ package recursoed_8210190_8210088test;
 
 import org.junit.Test;
 
-import recursoed_8210190_8210088.App;
+import recursoed_8210190_8210088.GUI.App;
 
 import static org.junit.Assert.*;
 

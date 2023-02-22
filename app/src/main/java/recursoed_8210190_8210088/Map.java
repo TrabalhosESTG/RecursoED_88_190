@@ -1,6 +1,5 @@
 package recursoed_8210190_8210088;
 
-import Exceptions.InvalidValue;
 import Lists.ArrayList;
 import Lists.LinearNode;
 import Lists.Network;
@@ -24,9 +23,16 @@ public class Map {
         return totalLocals;
     }
 
+	public PlayerList getPlayers() {
+		return players;
+	}
+
     public void addLocal(Local local) {
         this.network.addVertex(local);
         this.totalLocals++;
+        network.getWeights().add(new ArrayList<Double>());
+        giantsPath.add(new ArrayList<Local>());
+        sparksPath.add(new ArrayList<Local>());
     }
 
     public void addConnection(Local local1, Local local2, double weight) {
@@ -59,42 +65,6 @@ public class Map {
         int index2 = this.network.indexOf(local2);
         sparksPath.get(index1).add(local2);
         sparksPath.get(index2).add(local1);
-    }
-
-    public void editLatLong(Local local, double latitude, double longitude) throws InvalidValue {
-        if(latitude < -90 || latitude > 90)
-            throw new InvalidValue("Latitude out of bounds");
-        else
-            local.setLatitude(latitude);
-        if(longitude < -180 || longitude > 180)
-            throw new InvalidValue("Longitude out of bounds");
-        else
-            local.setLongitude(longitude);
-   }
-
-    public void editEnergy(Local local, double energy) throws InvalidValue{
-         if(energy >= 0)
-              local.setEnergy(energy);
-         else
-              throw new InvalidValue("Energy cannot be negative");
-    }
-
-    public void editMaxEnergy(Portal portal, double maxEnergy) throws InvalidValue{
-        if(maxEnergy >= 0)
-            portal.setMaxEnergy(maxEnergy);
-        else
-            throw new InvalidValue("Max Energy cannot be negative");
-    }
-
-    public void editName(Portal portal, String name) {
-        portal.setName(name);
-    }
-
-    public void editCooldown(Connector connector, int cooldown) throws InvalidValue{
-        if(cooldown >= 0)
-            connector.setCooldown(cooldown);
-        else
-            throw new InvalidValue("Cooldown cannot be negative");
     }
 
     public void removeLocal(Local local) {
@@ -136,7 +106,7 @@ public class Map {
         for (int i = 0; i < connectors.size()*0.25; i++) {
             int randomIndex = (int) (Math.random() * connectors.size());
             connectors.get(randomIndex).setMine(true);
-        }  
+        }
     }
 
     public void playerSetLocal(Player player, Local local) {
@@ -235,5 +205,52 @@ public class Map {
         }
         path += " Peso total: " + weight;
         return path;
+    }
+
+    public int getNextId() {
+        int id = 0;
+        for (int i = 0; i < this.network.getVertices().size(); i++) {
+            if (this.network.getVertices().get(i).getId() > id) {
+                id = this.network.getVertices().get(i).getId();
+            }
+        }
+        return id + 1;
+    }
+
+	public String[][] getRoutes(){
+        String[][] routes = new String[(network.getEdges().size() * 6)][3];
+        ArrayList<ArrayList<Local>> rotas = network.getEdges();
+        ArrayList<ArrayList<Double>> pesos = network.getWeights();
+        int k = 0;
+        for(int i = 0; i < rotas.size(); i++) {
+            if(!(rotas.get(i).size() < 1)) {
+                for(int j = 0; j < rotas.get(i).size(); j++) {
+                    routes[k][0] = "" + network.getVertex(i).getId();
+                    routes[k][1] = "" + rotas.get(i).get(j).getId();
+                    routes[k][2] = "" + pesos.get(i).get(j);
+                    k++;
+                }
+            }
+            if(getGiantsPath(network.getVertex(i)).size() > 0) {
+                for(int j = 0; j < getGiantsPath(network.getVertex(i)).size(); j++) {
+                    routes[k][0] = "" + network.getVertex(i).getId();
+                    routes[k][1] = "" + getGiantsPath(network.getVertex(i)).get(j).getId();
+                    routes[k][2] = "0";
+                    k++;
+                }
+            }
+            if(getSparksPath(network.getVertex(i)).size() > 0) {
+                for(int j = 0; j < getSparksPath(network.getVertex(i)).size(); j++) {
+                    routes[k][0] = "" + network.getVertex(i).getId();
+                    routes[k][1] = "" + getSparksPath(network.getVertex(i)).get(j).getId();
+                    routes[k][2] = "0";
+                    k++;
+                }
+            }
+
+        }
+
+
+        return routes;
     }
 }

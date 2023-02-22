@@ -29,7 +29,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'recursoed_8210190_8210088.App'
+    mainClass = 'recursoed_8210190_8210088.GUI.App'
 }
 
 jacoco {

@@ -29,7 +29,7 @@ public class PlayerList {
         list.remove(player);
         size--;
     }
-    
+
 
     public Player getPlayer(int id) {
 		if (list.isEmpty()) {
@@ -110,5 +110,29 @@ public class PlayerList {
 				current = current.getNext();
 			}
 		}
+	}
+
+	public Player[] getPlayers(){
+		Player[] players = new Player[size];
+		LinearNode<Player> current = list.getHead();
+		int i = 0;
+		while (current != null) {
+			players[i] = current.getElement();
+			current = current.getNext();
+			i++;
+		}
+		return players;
+	}
+
+	public int getNextID(){
+		int id = 0;
+		LinearNode<Player> current = list.getHead();
+		while (current != null) {
+			if (current.getElement().getId() > id) {
+				id = current.getElement().getId();
+			}
+			current = current.getNext();
+		}
+		return id + 1;
 	}
 }

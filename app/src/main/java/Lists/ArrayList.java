@@ -96,7 +96,7 @@ public class ArrayList<T> implements OrderedListADT<T> {
     @Override
     public boolean contains(T target) {
         if(isEmpty()) {
-            throw new EmptyCollectionException("Linked List");
+			return false;
         }
         boolean found = false;
         int index = 0;
@@ -152,12 +152,12 @@ public class ArrayList<T> implements OrderedListADT<T> {
             this.index = 0;
         }
 
-        
+
         public boolean hasNext() {
             return this.index < this.count;
         }
 
-        
+
         public T next() {
             if (this.index < this.count) {
                 T result = this.list[this.index];
@@ -168,12 +168,12 @@ public class ArrayList<T> implements OrderedListADT<T> {
             }
         }
 
-        
+
         public void remove() {
             throw new UnsupportedOperationException("Remove operation is not supported.");
         }
     }
-    
+
     public void expandCapacity() {
         T[] larger = (T[]) (new Object[list.length * 2]);
         for(int i = 0; i < list.length; i++) {

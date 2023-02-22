@@ -50,12 +50,12 @@ public class ArrayGraph<T> implements GraphADT<T>{
             edges.get(indexOf(vertex1)).remove(vertex2);
             edges.get(indexOf(vertex2)).remove(vertex1);
         }
-        
+
     }
 
     @Override
     public Iterator<T> iteratorBFS(T startVertex) {
-        
+
         int startIndex = indexOf(startVertex);
         if (startIndex == -1) {
             throw new IllegalArgumentException("Vertex not in graph");
@@ -127,26 +127,26 @@ public class ArrayGraph<T> implements GraphADT<T>{
             throw new EmptyCollectionException("Linked List");
         }
         return index;
-        
-    } 
-    
+
+    }
+
     private class BFSIterator implements Iterator<T> {
 
         private Queue<Integer> queue;
         private boolean[] visited;
-    
+
         public BFSIterator(int start) {
             queue = new Queue<>();
             visited = new boolean[vertices.size()];
             visited[start] = true;
             queue.enqueue(start);
         }
-    
+
         @Override
         public boolean hasNext() {
             return !queue.isEmpty();
         }
-    
+
         @Override
         public T next() {
             if(!hasNext()) {
@@ -168,19 +168,19 @@ public class ArrayGraph<T> implements GraphADT<T>{
 
         private Stack<Integer> stack;
         private boolean[] visited;
-    
+
         public DFSIterator(int start) {
             stack = new Stack<>();
             visited = new boolean[vertices.size()];
             visited[start] = true;
             stack.push(start);
         }
-    
+
         @Override
         public boolean hasNext() {
             return !stack.isEmpty();
         }
-    
+
         @Override
         public T next() {
             if(!hasNext()) {
@@ -202,17 +202,17 @@ public class ArrayGraph<T> implements GraphADT<T>{
 
         private ArrayList<Integer> path;
         private int index;
-    
+
         public PathIterator(ArrayList<Integer> path) {
             this.path = path;
             index = path.size() - 1;
         }
-    
+
         @Override
         public boolean hasNext() {
             return index >= 0;
         }
-    
+
         @Override
         public T next() {
             if(!hasNext()) {
@@ -256,5 +256,5 @@ public class ArrayGraph<T> implements GraphADT<T>{
     public ArrayList<ArrayList<T>> getEdges() {
         return edges;
     }
-    
+
 }
